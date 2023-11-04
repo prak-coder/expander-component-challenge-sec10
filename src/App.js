@@ -1,4 +1,4 @@
-import "./styles.css";
+import { useState } from "react";
 
 export default function App() {
   return (
@@ -30,10 +30,49 @@ export default function App() {
         travel is a pretty cool thing to think about. Who knows what we'll
         discover next!
       </TextExpander>
+      <TextExpander
+        collapsedNumWords={15}
+        expandButtonText="expand all text"
+        collapseButtonText="shrink text"
+        buttonColor="#ff00c8"
+      >
+        Elit culpa nisi eu Lorem ut deserunt nulla duis adipisicing consectetur.
+        Consequat officia esse tempor reprehenderit sit nostrud reprehenderit
+        dolor. Dolor non cillum mollit laborum dolore ea magna pariatur laboris
+        ea esse enim. Non duis ad mollit velit eu sunt pariatur culpa culpa. In
+        elit ea adipisicing ad ipsum in aliquip ea.
+      </TextExpander>
     </div>
   );
 }
 
-function TextExpander() {
-  return <div>TODO</div>;
+function TextExpander({
+  collapsedNumWords = 10,
+  expandButtonText = "Show More",
+  collapseButtonText = "Show Less",
+  buttonColor = "#1f09cd",
+  expanded = false,
+  className = "",
+  children,
+}) {
+  const [isExpanded, setIsExpanded] = useState(expanded);
+  const buttonStyle = {
+    background: "none",
+    border: "none",
+    font: "inherit",
+    cursor: "pointer",
+    marginLeft: "6px",
+    color: buttonColor,
+  };
+  const displayText = isExpanded
+    ? children
+    : children.split(" ").slice(0, collapsedNumWords).join(" ") + "...";
+  return (
+    <div className={className}>
+      <span>{displayText}</span>
+      <button style={buttonStyle} onClick={() => setIsExpanded((exp) => !exp)}>
+        {isExpanded ? collapseButtonText : expandButtonText}
+      </button>
+    </div>
+  );
 }
